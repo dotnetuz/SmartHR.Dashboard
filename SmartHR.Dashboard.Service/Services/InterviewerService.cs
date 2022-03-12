@@ -1,4 +1,5 @@
-﻿using SmartHR.Dashboard.Data.IRepositories;
+﻿using AutoMapper;
+using SmartHR.Dashboard.Data.IRepositories;
 using SmartHR.Dashboard.Domain.Common;
 using SmartHR.Dashboard.Domain.Entities.Interviews;
 using SmartHR.Dashboard.Domain.Enums;
@@ -18,18 +19,33 @@ namespace SmartHR.Dashboard.Service.Services
     public class InterviewerService : IInterviewerService
     {
         private readonly IUnitOfWork _unitOfWork;
-        public InterviewerService(IUnitOfWork unitOfWork)
+        private readonly IMapper mapper;
+        public InterviewerService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            this.mapper = mapper;
         }
 
         public async ValueTask<BaseResponse<CollectionResult<Interview>>> GetRequestsAsync(int pageSize, int pageIndex, InterviewStatus status)
         {
             var response = new BaseResponse<CollectionResult<Interview>>();
 
-            var interviews = await _unitOfWork.Interviews.GetAllAsync(p => p.InterviewerId == HttpContextHelper.UserId && p.Status == status);
+            var interviews = await _unitOfWork.Interviews.GetAllAsync(p => 
+                p.InterviewerId == HttpContextHelper.UserId && 
+                p.Status == status);
 
             response.Data = new CollectionResult<Interview>(interviews.Count(), interviews.ToPagination(pageSize, pageIndex));
+
+            return response;
+        }
+
+        public async ValueTask<BaseResponse<FeedbackApplicant>> LeaveFeedbackAsync(FeedbackViewModel feedbackViewModel)
+        {
+            var response = new BaseResponse<FeedbackApplicant>();
+
+            var feedback = await _unitOfWork.Interviews.LeaveFeedbackAsync(this.mapper.Map<FeedbackApplicant>(feedbackViewModel));
+
+            response.Data = feedback;
 
             return response;
         }

@@ -13,16 +13,16 @@ namespace SmartHR.Dashboard.Api.Controllers
     [Route("api/[controller]"), Authorize(Roles = "Interviewer")]
     public class InterviewersController : ControllerBase
     {
-        private readonly IInterviewerService _interviewerService;
+        private readonly IInterviewerService interviewerService;
         public InterviewersController(IInterviewerService interviewerService)
         {
-            _interviewerService = interviewerService; 
+            this.interviewerService = interviewerService; 
         }
 
         [HttpGet]
         public async ValueTask<ActionResult<IEnumerable<Interview>>> GetInterviewers(int pageSize, int pageIndex, InterviewStatus status)
         {
-            var result = await _interviewerService.GetRequestsAsync(pageSize, pageIndex, status);
+            var result = await this.interviewerService.GetRequestsAsync(pageSize, pageIndex, status);
 
             return Ok(result);
         }
@@ -30,9 +30,18 @@ namespace SmartHR.Dashboard.Api.Controllers
         [HttpPatch("interview/toggle-status")]
         public async ValueTask<ActionResult<Interview>> UpdateStatus(UpdateInterviewStatusViewModel statusModel)
         {
-            var result = await _interviewerService.UpdateStatusAsync(statusModel);
+            var result = await this.interviewerService.UpdateStatusAsync(statusModel);
 
             return result.Error?.Code == 404 ? NotFound(result) : Ok(result);
         } 
+
+        [HttpPost]
+        public async ValueTask<IActionResult> LeaveFeedback(
+            [FromBody] FeedbackViewModel feedback)
+        {
+            var result = await this.interviewerService.LeaveFeedbackAsync(feedback);
+
+            return Created("", result);
+        }
     }
 }
