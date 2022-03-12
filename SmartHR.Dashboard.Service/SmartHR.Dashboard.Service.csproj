@@ -13,6 +13,12 @@
   <ItemGroup>
     <Folder Include="Extensions\" />
     <Folder Include="Helpers\" />
+    <Folder Include="ViewModels\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SmartHR.Dashboard.Data\SmartHR.Dashboard.Data.csproj" />
+    <ProjectReference Include="..\SmartHR.Dashboard.Domain\SmartHR.Dashboard.Domain.csproj" />
   </ItemGroup>
 
 </Project>
