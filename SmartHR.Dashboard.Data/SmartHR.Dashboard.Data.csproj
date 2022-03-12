@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.14">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.10">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -18,5 +18,4 @@
   <ItemGroup>
     <ProjectReference Include="..\SmartHR.Dashboard.Domain\SmartHR.Dashboard.Domain.csproj" />
   </ItemGroup>
-
 </Project>
