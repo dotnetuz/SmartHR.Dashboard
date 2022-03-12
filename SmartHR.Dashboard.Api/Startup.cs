@@ -9,6 +9,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using SmartHR.Dashboard.Api.Extensions;
 using SmartHR.Dashboard.Data.Contexts;
+using SmartHR.Dashboard.Service.Customs;
+using SmartHR.Dashboard.Service.Helpers;
 using SmartHR.Dashboard.Service.Interfaces;
 using SmartHR.Dashboard.Service.Services;
 using SmartHR.Dashboard.Service.ViewModels;
@@ -33,19 +35,25 @@ namespace SmartHR.Dashboard.Api
                 options.UseNpgsql(Configuration.GetConnectionString("SmartHR"));
             });
 
-            services.AddTransient<IMailService, MailService>();
-            services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
+            // Add JWT settings
+            services.AddJwtService(Configuration);
 
-            services.AddControllers();
-            services.AddSwaggerGen(c =>
+            services.AddHttpContextAccessor();
+
+            // Setup CORS
+            services.AddCorsService();
+
+            // Swagger part and others
+            services.AddControllers(options =>
             {
                 options.Conventions.Add(new RouteTokenTransformerConvention(new SlugifyParameterTransformer()));
             }).AddNewtonsoftJson();
 
+            services.AddSignalR();
             services.AddSwaggerService();
 
             // Custom services
-            services.AddCustomServices();
+            services.AddCustomServices(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -7,17 +7,20 @@ using SmartHR.Dashboard.Data.IRepositories;
 using SmartHR.Dashboard.Data.Repositories;
 using SmartHR.Dashboard.Service.Interfaces;
 using SmartHR.Dashboard.Service.Services;
+using SmartHR.Dashboard.Service.ViewModels;
 using System.Text;
 
 namespace SmartHR.Dashboard.Api.Extensions
 {
     public static class ServiceExtensions
     {
-        public static void AddCustomServices(this IServiceCollection services)
+        public static void AddCustomServices(this IServiceCollection services, IConfiguration config)
         {
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IAuthService, AuthService>();
+            services.AddTransient<IMailService, MailService>();
+            services.Configure<MailSettings>(config.GetSection("MailSettings"));
         }
 
         public static void AddSwaggerService(this IServiceCollection services)
