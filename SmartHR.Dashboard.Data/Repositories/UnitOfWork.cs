@@ -20,10 +20,9 @@ namespace SmartHR.Dashboard.Data.Repositories
         /// </summary>
         public IUserRepository Users { get; private set; }
 
-        public UnitOfWork(SmartHRDbContext smartHRDbContext, ILogger logger, IConfiguration config)
+        public UnitOfWork(SmartHRDbContext smartHRDbContext, IConfiguration config)
         {
             _smartHRDbContext = smartHRDbContext;
-            _logger = logger;
             _config = config;
 
             // Setting up logging service
@@ -37,7 +36,7 @@ namespace SmartHR.Dashboard.Data.Repositories
                 ).CreateLogger();
 
             // Initialize repositories
-            Users = new UserRepository(_smartHRDbContext, logger);
+            Users = new UserRepository(_smartHRDbContext, _logger);
         }
 
         public async Task CompleteTaskAsync()
