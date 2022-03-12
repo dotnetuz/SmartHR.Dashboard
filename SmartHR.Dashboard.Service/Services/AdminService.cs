@@ -19,11 +19,11 @@ namespace SmartHR.Dashboard.Service.Services
         {
             foreach (var identity in userIdentities)
             {
-                var user = await this.unitOfWork.Users.GetAsync(user => user.Id == identity);
+                var user = await unitOfWork.Users.GetAsync(user => user.Id == identity);
 
                 user.State = isApproved ? ItemState.Approved : ItemState.Rejected;
             }
-             
+
             await this.unitOfWork.CompleteTaskAsync();
         }
     }

@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SmartHR.Dashboard.Data.IRepositories;
 using SmartHR.Dashboard.Domain.Entities.Interviews;
 using SmartHR.Dashboard.Service.Interfaces;
 using SmartHR.Dashboard.Service.ViewModels.Interviews;

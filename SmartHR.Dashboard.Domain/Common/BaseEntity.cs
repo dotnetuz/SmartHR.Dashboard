@@ -1,6 +1,5 @@
 ﻿using SmartHR.Dashboard.Domain.Enums;
 using System;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SmartHR.Dashboard.Domain.Common
 {

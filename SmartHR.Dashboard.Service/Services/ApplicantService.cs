@@ -5,10 +5,6 @@ using SmartHR.Dashboard.Domain.Entities.Interviews;
 using SmartHR.Dashboard.Domain.Enums;
 using SmartHR.Dashboard.Service.Interfaces;
 using SmartHR.Dashboard.Service.ViewModels.Interviews;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace SmartHR.Dashboard.Service.Services
@@ -28,7 +24,7 @@ namespace SmartHR.Dashboard.Service.Services
             var response = new BaseResponse<Interview>();
 
             var interviewer = await _unitOfWork.Users.GetAsync(p => p.Id == interview.InterviewerId && p.Role == UserType.Interviewer);
-            if(interviewer is null)
+            if (interviewer is null)
             {
                 response.Error = new ErrorModel(404, "Interviewer not found");
                 return response;
@@ -42,9 +38,9 @@ namespace SmartHR.Dashboard.Service.Services
             }
 
             // check for exist interview with this interviewer
-            var oldInterview = await _unitOfWork.Interviews.GetAsync(p => 
+            var oldInterview = await _unitOfWork.Interviews.GetAsync(p =>
                 p.InterviewerId == interview.InterviewerId && p.ApplicantId == interview.ApplicantId);
-            if(oldInterview is not null)
+            if (oldInterview is not null)
             {
                 response.Error = new ErrorModel(404, "Already, request sent before");
                 return response;

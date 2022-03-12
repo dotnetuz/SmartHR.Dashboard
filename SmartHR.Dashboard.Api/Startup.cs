@@ -6,15 +6,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.OpenApi.Models;
 using SmartHR.Dashboard.Api.Extensions;
 using SmartHR.Dashboard.Data.Contexts;
 using SmartHR.Dashboard.Service.Customs;
 using SmartHR.Dashboard.Service.Helpers;
-using SmartHR.Dashboard.Service.Interfaces;
 using SmartHR.Dashboard.Service.Mapper;
-using SmartHR.Dashboard.Service.Services;
-using SmartHR.Dashboard.Service.ViewModels;
 
 namespace SmartHR.Dashboard.Api
 {

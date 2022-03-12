@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SmartHR.Dashboard.Domain.Entities.Users;
 using SmartHR.Dashboard.Service.Interfaces;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -17,7 +16,7 @@ namespace SmartHR.Dashboard.Api.Controllers
 
         [HttpPost("approvement")]
         public async Task<IActionResult> CompleteRegistrationAsync(
-            [FromBody]IList<long> userIdentities, 
+            [FromBody] IList<long> userIdentities,
             [FromQuery] bool isApproved)
         {
             if (userIdentities is null || userIdentities.Count == 0)

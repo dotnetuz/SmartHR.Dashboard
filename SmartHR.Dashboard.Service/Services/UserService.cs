@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
 using SmartHR.Dashboard.Data.IRepositories;
 using SmartHR.Dashboard.Domain.Common;
 using SmartHR.Dashboard.Domain.Entities.Users;
@@ -9,10 +8,8 @@ using SmartHR.Dashboard.Service.Extensions;
 using SmartHR.Dashboard.Service.Interfaces;
 using SmartHR.Dashboard.Service.ViewModels.Users;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace SmartHR.Dashboard.Service.Services
@@ -37,7 +34,7 @@ namespace SmartHR.Dashboard.Service.Services
 
             var mapped = _mapper.Map<User>(user);
             var newUser = await _unitOfWork.Users.CreateAsync(mapped);
-            if(newUser is null)
+            if (newUser is null)
             {
                 response.Error = new ErrorModel(404, "User is exist");
                 return response;
@@ -74,7 +71,7 @@ namespace SmartHR.Dashboard.Service.Services
             var response = new BaseResponse<User>();
 
             var user = await _unitOfWork.Users.GetAsync(predicate);
-            if(user is null)
+            if (user is null)
             {
                 response.Error = new ErrorModel(404, "User not found");
                 return response;

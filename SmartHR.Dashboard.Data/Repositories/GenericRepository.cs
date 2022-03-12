@@ -3,10 +3,8 @@ using Serilog;
 using SmartHR.Dashboard.Data.Contexts;
 using SmartHR.Dashboard.Data.IRepositories;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace SmartHR.Dashboard.Data.Repositories
