@@ -35,7 +35,7 @@ namespace SmartHR.Dashboard.Api.Controllers
 
         [HttpGet("users")]
         public async Task<ActionResult<IEnumerable<User>>> GetAll
-            (int pageSize, int pageIndex, [FromQuery] User user)
+            (int pageSize, int pageIndex)
         {
 
             return Ok(await this.userService.GetAllAsync(pageSize: pageSize, pageIndex: pageIndex));
