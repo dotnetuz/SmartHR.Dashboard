@@ -6,6 +6,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using SmartHR.Dashboard.Data.Contexts;
+using SmartHR.Dashboard.Service.Interfaces;
+using SmartHR.Dashboard.Service.Services;
+using SmartHR.Dashboard.Service.ViewModels;
 
 namespace SmartHR.Dashboard.Api
 {
@@ -26,6 +29,9 @@ namespace SmartHR.Dashboard.Api
             {
                 options.UseNpgsql(Configuration.GetConnectionString("SmartHR"));
             });
+
+            services.AddTransient<IMailService, MailService>();
+            services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
