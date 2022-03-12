@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SmartHR.Dashboard.Domain.Entities.User;
+using SmartHR.Dashboard.Domain.Entities.Users;
 using SmartHR.Dashboard.Service.Interfaces;
+using SmartHR.Dashboard.Service.ViewModels.Users;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -18,7 +19,7 @@ namespace SmartHR.Dashboard.Api.Controllers
         }
 
         [HttpPost, AllowAnonymous]
-        public async Task<ActionResult<User>> Create(User user)
+        public async Task<ActionResult<User>> Create(UserViewModel user)
         {
             var result = await userService.CreateAsync(user);
 

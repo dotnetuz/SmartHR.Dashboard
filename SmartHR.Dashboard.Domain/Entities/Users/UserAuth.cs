@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SmartHR.Dashboard.Domain.Entities.User
+namespace SmartHR.Dashboard.Domain.Entities.Users
 {
     public class UserAuth
     {

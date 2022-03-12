@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using SmartHR.Dashboard.Data.Contexts;
@@ -9,9 +10,10 @@ using SmartHR.Dashboard.Data.Contexts;
 namespace SmartHR.Dashboard.Data.Migrations
 {
     [DbContext(typeof(SmartHRDbContext))]
-    partial class SmartHRDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220312195716_interviewMigration")]
+    partial class interviewMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

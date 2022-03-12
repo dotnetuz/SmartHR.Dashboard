@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SmartHR.Dashboard.Domain.Entities.User;
+using SmartHR.Dashboard.Domain.Entities.Users;
 using SmartHR.Dashboard.Service.Interfaces;
 using System.Collections.Generic;
 using System.Threading.Tasks;
