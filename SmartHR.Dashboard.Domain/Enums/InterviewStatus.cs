@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace SmartHR.Dashboard.Domain.Enums
 {
-    public enum ItemState
+    public enum InterviewStatus
     {
-        Created = 1,
-        Deleted,
-        Updated
+        Pending,
+        Rejected,
+        Approved
     }
+
 }

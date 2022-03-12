@@ -1,11 +1,13 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using AutoMapper;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using SmartHR.Dashboard.Data.IRepositories;
 using SmartHR.Dashboard.Domain.Common;
-using SmartHR.Dashboard.Domain.Entities.User;
+using SmartHR.Dashboard.Domain.Entities.Users;
 using SmartHR.Dashboard.Domain.Enums;
 using SmartHR.Dashboard.Service.Extensions;
 using SmartHR.Dashboard.Service.Interfaces;
+using SmartHR.Dashboard.Service.ViewModels.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,17 +22,21 @@ namespace SmartHR.Dashboard.Service.Services
         private readonly IUnitOfWork _unitOfWork;
         private IAuthService _authService;
         private readonly IConfiguration _config;
-        public UserService(IUnitOfWork unitOfWork, IAuthService authService, IConfiguration config)
+        private readonly IMapper _mapper;
+        public UserService(IUnitOfWork unitOfWork, IAuthService authService, IConfiguration config, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _authService = authService;
             _config = config;
+            _mapper = mapper;
         }
 
-        public async Task<BaseResponse<User>> CreateAsync(User user)
+        public async Task<BaseResponse<User>> CreateAsync(UserViewModel user)
         {
             var response = new BaseResponse<User>();
-            var newUser = await _unitOfWork.Users.CreateAsync(user);
+
+            var mapped = _mapper.Map<User>(user);
+            var newUser = await _unitOfWork.Users.CreateAsync(mapped);
             if(newUser is null)
             {
                 response.Error = new ErrorModel(404, "User is exist");

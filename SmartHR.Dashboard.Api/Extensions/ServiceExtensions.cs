@@ -20,6 +20,8 @@ namespace SmartHR.Dashboard.Api.Extensions
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IAuthService, AuthService>();
             services.AddTransient<IMailService, MailService>();
+            services.AddScoped<IApplicantService, ApplicantService>();
+
             services.Configure<MailSettings>(config.GetSection("MailSettings"));
         }
 

@@ -21,6 +21,8 @@ namespace SmartHR.Dashboard.Data.Repositories
         public IUserRepository Users { get; private set; }
         public IUserAuthRepository UserAuths { get; private set; }
 
+        public IInterviewRepository Interviews { get; private set; }
+
         public UnitOfWork(SmartHRDbContext smartHRDbContext, IConfiguration config)
         {
             _smartHRDbContext = smartHRDbContext;
@@ -39,6 +41,7 @@ namespace SmartHR.Dashboard.Data.Repositories
             // Initialize repositories
             Users = new UserRepository(_smartHRDbContext, _logger);
             UserAuths = new UserAuthRepository(_smartHRDbContext, _logger);
+            Interviews = new InterviewRepository(_smartHRDbContext, _logger);
         }
 
         public async Task CompleteTaskAsync()

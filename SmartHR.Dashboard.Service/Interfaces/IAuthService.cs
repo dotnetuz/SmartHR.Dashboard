@@ -1,4 +1,4 @@
-﻿using SmartHR.Dashboard.Domain.Entities.User;
+﻿using SmartHR.Dashboard.Domain.Entities.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;

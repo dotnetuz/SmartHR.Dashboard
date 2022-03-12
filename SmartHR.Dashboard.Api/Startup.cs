@@ -12,6 +12,7 @@ using SmartHR.Dashboard.Data.Contexts;
 using SmartHR.Dashboard.Service.Customs;
 using SmartHR.Dashboard.Service.Helpers;
 using SmartHR.Dashboard.Service.Interfaces;
+using SmartHR.Dashboard.Service.Mapper;
 using SmartHR.Dashboard.Service.Services;
 using SmartHR.Dashboard.Service.ViewModels;
 
@@ -34,6 +35,8 @@ namespace SmartHR.Dashboard.Api
             {
                 options.UseNpgsql(Configuration.GetConnectionString("SmartHR"));
             });
+
+            services.AddAutoMapper(typeof(MapperProfile));
 
             // Add JWT settings
             services.AddJwtService(Configuration);

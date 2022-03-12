@@ -1,5 +1,5 @@
 ﻿using Microsoft.IdentityModel.Tokens;
-using SmartHR.Dashboard.Domain.Entities.User;
+using SmartHR.Dashboard.Domain.Entities.Users;
 using SmartHR.Dashboard.Service.Interfaces;
 using System;
 using System.Collections.Generic;

@@ -10,6 +10,7 @@ namespace SmartHR.Dashboard.Data.IRepositories
     {
         IUserRepository Users { get; }
         IUserAuthRepository UserAuths { get; }
+        IInterviewRepository Interviews { get; }
         Task CompleteTaskAsync();
     }
 }
