@@ -16,6 +16,5 @@ namespace SmartHR.Dashboard.Data.Contexts
         public virtual DbSet<Interview> Interviews { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<UserAuth> UserAuths { get; set; }
-        public virtual DbSet<Interview> Interviews { get; set; }
     }
 }
