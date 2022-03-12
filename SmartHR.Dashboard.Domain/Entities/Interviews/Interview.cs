@@ -20,6 +20,6 @@ namespace SmartHR.Dashboard.Domain.Entities.Interviews
 
         public DateTime ScheduleDate { get; set; }
         public string Description { get; set; }
-        public InterviewStatus Status { get; set; }
+        public InterviewStatus Status { get; set; } = InterviewStatus.Pending;
     }
 }

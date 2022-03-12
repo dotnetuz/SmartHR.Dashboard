@@ -17,7 +17,7 @@ namespace SmartHR.Dashboard.Api.Controllers
             _applicantService = applicantService;
         }
 
-        [HttpPost]
+        [HttpPost("request")]
         public async ValueTask<ActionResult<Interview>> SendRequest(InterviewViewModel interview)
         {
             var result = await _applicantService.SendRequestAsync(interview);

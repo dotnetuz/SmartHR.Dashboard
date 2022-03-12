@@ -2,7 +2,7 @@
 {
     public enum InterviewStatus
     {
-        Pending,
+        Pending = 1,
         Rejected,
         Approved
     }
