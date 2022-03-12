@@ -12,6 +12,7 @@ namespace SmartHR.Dashboard.Service.Mapper
         {
             CreateMap<Interview, InterviewViewModel>().ReverseMap();
             CreateMap<User, UserViewModel>().ReverseMap();
+            CreateMap<FeedbackApplicant, FeedbackViewModel>().ReverseMap();
         }
     }
 }
