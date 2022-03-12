@@ -17,6 +17,7 @@ namespace SmartHR.Dashboard.Api.Extensions
         {
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IAuthService, AuthService>();
         }
 
         public static void AddSwaggerService(this IServiceCollection services)

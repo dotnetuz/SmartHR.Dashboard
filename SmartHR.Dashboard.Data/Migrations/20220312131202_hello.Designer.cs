@@ -10,8 +10,8 @@ using SmartHR.Dashboard.Data.Contexts;
 namespace SmartHR.Dashboard.Data.Migrations
 {
     [DbContext(typeof(SmartHRDbContext))]
-    [Migration("20220312114059_FirstMigration")]
-    partial class FirstMigration
+    [Migration("20220312131202_hello")]
+    partial class hello
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -67,6 +67,27 @@ namespace SmartHR.Dashboard.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("SmartHR.Dashboard.Domain.Entities.User.UserAuth", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<DateTime?>("LastLoginDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Token")
+                        .HasColumnType("text");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UserAuths");
                 });
 #pragma warning restore 612, 618
         }

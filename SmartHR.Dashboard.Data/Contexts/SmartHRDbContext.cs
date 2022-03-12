@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SmartHR.Dashboard.Domain.Entities;
 using SmartHR.Dashboard.Domain.Entities.User;
 using System;
 using System.Collections.Generic;
@@ -16,5 +17,6 @@ namespace SmartHR.Dashboard.Data.Contexts
         }
 
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<UserAuth> UserAuths { get; set; }
     }
 }

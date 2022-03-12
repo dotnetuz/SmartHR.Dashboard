@@ -66,6 +66,27 @@ namespace SmartHR.Dashboard.Data.Migrations
 
                     b.ToTable("Users");
                 });
+
+            modelBuilder.Entity("SmartHR.Dashboard.Domain.Entities.User.UserAuth", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<DateTime?>("LastLoginDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Token")
+                        .HasColumnType("text");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UserAuths");
+                });
 #pragma warning restore 612, 618
         }
     }

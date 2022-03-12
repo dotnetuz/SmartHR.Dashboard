@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -7,6 +9,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using SmartHR.Dashboard.Api.Extensions;
 using SmartHR.Dashboard.Data.Contexts;
+using SmartHR.Dashboard.Service.Customs;
+using SmartHR.Dashboard.Service.Helpers;
 
 namespace SmartHR.Dashboard.Api
 {
@@ -28,12 +32,23 @@ namespace SmartHR.Dashboard.Api
                 options.UseNpgsql(Configuration.GetConnectionString("SmartHR"));
             });
 
-            services.AddControllers();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "SmartHR.Dashboard.Api", Version = "v1" });
-            });
+            // Add JWT settings
+            services.AddJwtService(Configuration);
 
+            services.AddHttpContextAccessor();
+
+            // Setup CORS
+            services.AddCorsService();
+
+            // Swagger part and others
+            services.AddControllers(options =>
+            {
+                options.Conventions.Add(new RouteTokenTransformerConvention(new SlugifyParameterTransformer()));
+            }).AddNewtonsoftJson();
+
+            services.AddSwaggerService();
+
+            // Custom services
             services.AddCustomServices();
         }
 
@@ -47,11 +62,20 @@ namespace SmartHR.Dashboard.Api
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "SmartHR.Dashboard.Api v1"));
             }
 
+            if (app.ApplicationServices.GetService<IHttpContextAccessor>() != null)
+            {
+                HttpContextHelper.Accessor = app.ApplicationServices.GetRequiredService<IHttpContextAccessor>();
+            }
+
+            app.UseCors("AllowAll");
             app.UseHttpsRedirection();
+
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
+            app.UseStaticFiles();
 
             app.UseEndpoints(endpoints =>
             {

@@ -1,6 +1,8 @@
-﻿using SmartHR.Dashboard.Data.IRepositories;
+﻿using Microsoft.Extensions.Configuration;
+using SmartHR.Dashboard.Data.IRepositories;
 using SmartHR.Dashboard.Domain.Common;
 using SmartHR.Dashboard.Domain.Entities.User;
+using SmartHR.Dashboard.Domain.Enums;
 using SmartHR.Dashboard.Service.Extensions;
 using SmartHR.Dashboard.Service.Interfaces;
 using System;
@@ -15,9 +17,13 @@ namespace SmartHR.Dashboard.Service.Services
     public class UserService : IUserService
     {
         private readonly IUnitOfWork _unitOfWork;
-        public UserService(IUnitOfWork unitOfWork)
+        private IAuthService _authService;
+        private readonly IConfiguration _config;
+        public UserService(IUnitOfWork unitOfWork, IAuthService authService, IConfiguration config)
         {
             _unitOfWork = unitOfWork;
+            _authService = authService;
+            _config = config;
         }
 
         public async Task<BaseResponse<User>> CreateAsync(User user)
@@ -28,6 +34,15 @@ namespace SmartHR.Dashboard.Service.Services
             {
                 response.Error = new ErrorModel(404, "User is exist");
                 return response;
+            }
+
+            var userAuth = await _unitOfWork.UserAuths.GetAsync(p => p.UserId == newUser.Id);
+            if (userAuth is null)
+            {
+                await _unitOfWork.UserAuths.CreateAsync(new UserAuth
+                {
+                    UserId = newUser.Id,
+                });
             }
 
             await _unitOfWork.CompleteTaskAsync();
@@ -63,18 +78,50 @@ namespace SmartHR.Dashboard.Service.Services
             return response;
         }
 
-        public async Task<BaseResponse<User>> LoginAsync(string username, string password)
+        public async Task<BaseResponse<string>> LoginAsync(string username, string password)
         {
-            var response = new BaseResponse<User>();
+            var response = new BaseResponse<string>();
 
-            var user = await GetAsync(p => p.Username == username && p.Password == password);
-            if(user is null)
+            var user = await _unitOfWork.Users.GetAsync(p => p.Username == username &&
+                p.State != ItemState.Deleted);
+
+            if (user is null)
             {
-                response.Error = new ErrorModel(404, "User not found");
+                response.Error = new ErrorModel(400, "Username or password is incorrect");
                 return response;
             }
 
-            return user;
+            if (user.Username == username && user.Password == password)
+            {
+                string token = _authService.CreateToken(_config["Jwt:Key"], _config["Jwt:Issuer"], user);
+
+                var userAuth = await _unitOfWork.UserAuths.GetAsync(p => p.UserId == user.Id);
+                if (userAuth is not null)
+                {
+                    userAuth.Token = token;
+                    userAuth.LastLoginDate = DateTime.Now;
+                    user.UpdatedDate = DateTime.Now;
+                }
+                else
+                {
+                    await _unitOfWork.UserAuths.CreateAsync(new UserAuth
+                    {
+                        UserId = user.Id,
+                        Token = token,
+                        LastLoginDate = DateTime.Now,
+                    });
+                }
+
+                await _unitOfWork.CompleteTaskAsync();
+
+                response.Data = token;
+
+                return response;
+            }
+
+            response.Error = new ErrorModel(400, "Username or password is incorrect");
+
+            return response;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SmartHR.Dashboard.Domain.Entities.User;
 using SmartHR.Dashboard.Service.Interfaces;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 namespace SmartHR.Dashboard.Api.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/[controller]"), Authorize]
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -16,7 +17,7 @@ namespace SmartHR.Dashboard.Api.Controllers
             _userService = userService;
         }
 
-        [HttpPost]
+        [HttpPost, AllowAnonymous]
         public async Task<ActionResult<User>> Create(User user)
         {
             var result = await _userService.CreateAsync(user);
@@ -27,5 +28,13 @@ namespace SmartHR.Dashboard.Api.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetAll(int pageSize, int pageIndex)
             => Ok( await _userService.GetAllAsync(pageSize, pageIndex));
+
+        [HttpGet("login"), AllowAnonymous]
+        public async Task<ActionResult<string>> Login(string username, string password)
+        {
+            var result = await _userService.LoginAsync(username, password);
+
+            return result.Error?.Code == 400 ? BadRequest("Username or password is incorrect") : Ok(result);
+        }
     }
 }
