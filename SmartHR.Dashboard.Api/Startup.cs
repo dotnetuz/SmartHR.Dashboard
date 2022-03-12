@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using SmartHR.Dashboard.Api.Extensions;
 using SmartHR.Dashboard.Data.Contexts;
 using SmartHR.Dashboard.Service.Interfaces;
 using SmartHR.Dashboard.Service.Services;
@@ -38,6 +39,8 @@ namespace SmartHR.Dashboard.Api
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "SmartHR.Dashboard.Api", Version = "v1" });
             });
+
+            services.AddCustomServices();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

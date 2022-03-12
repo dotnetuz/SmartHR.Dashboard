@@ -29,6 +29,9 @@ namespace SmartHR.Dashboard.Service.Services
                 response.Error = new ErrorModel(404, "User is exist");
                 return response;
             }
+
+            await _unitOfWork.CompleteTaskAsync();
+
             response.Data = newUser;
             return response;
         }
