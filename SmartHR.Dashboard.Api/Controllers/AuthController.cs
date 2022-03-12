@@ -33,7 +33,7 @@ namespace SmartHR.Dashboard.Api.Controllers
             return result.Error?.Code == 400 ? BadRequest("Username or password is incorrect") : Ok(result);
         }
 
-        [HttpGet]
+        [HttpGet("users")]
         public async Task<ActionResult<IEnumerable<User>>> GetAll
             (int pageSize, int pageIndex, [FromQuery] User user)
         {
