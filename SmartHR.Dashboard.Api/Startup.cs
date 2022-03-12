@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using SmartHR.Dashboard.Data.Contexts;
 
 namespace SmartHR.Dashboard.Api
 {
@@ -19,6 +21,11 @@ namespace SmartHR.Dashboard.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // setup dbcontexts
+            services.AddDbContext<SmartHRDbContext>(options =>
+            {
+                options.UseNpgsql(Configuration.GetConnectionString("SmartHR"));
+            });
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <Folder Include="Entities\Applicant\" />
-    <Folder Include="Entities\User\" />
     <Folder Include="Models\" />
   </ItemGroup>
 

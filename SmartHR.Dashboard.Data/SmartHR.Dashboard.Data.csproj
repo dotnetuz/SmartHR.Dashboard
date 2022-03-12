@@ -5,9 +5,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="IRepositories\" />
-    <Folder Include="Contexts\" />
-    <Folder Include="Repositories\" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.14">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Npgsql.EntityFrameworkCore.Postgresql" Version="5.0.10" />
+    <PackageReference Include="Serilog" Version="2.10.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SmartHR.Dashboard.Domain\SmartHR.Dashboard.Domain.csproj" />
   </ItemGroup>
 
 </Project>

@@ -6,11 +6,16 @@
 
   <ItemGroup>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+	<PackageReference Include="Npgsql.EntityFrameworkCore.Postgresql" Version="5.0.10" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Controllers\" />
     <Folder Include="Models\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SmartHR.Dashboard.Data\SmartHR.Dashboard.Data.csproj" />
   </ItemGroup>
 
 </Project>
