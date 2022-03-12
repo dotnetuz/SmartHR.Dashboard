@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SmartHR.Dashboard.Data\SmartHR.Dashboard.Data.csproj" />
+    <ProjectReference Include="..\SmartHR.Dashboard.Service\SmartHR.Dashboard.Service.csproj" />
   </ItemGroup>
 
 </Project>
