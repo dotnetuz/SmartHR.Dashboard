@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace SmartHR.Dashboard.Data.Repositories
 {
+#pragma warning disable
     public class GenericRepository<TSource> : IGenericRepository<TSource> where TSource : class
     {
         private readonly ILogger _logger;
@@ -38,13 +39,17 @@ namespace SmartHR.Dashboard.Data.Repositories
             }
         }
 
-        public async Task<TSource> DeleteAsync(Expression<Func<TSource, bool>> expression)
+        public async Task<bool> DeleteAsync(Expression<Func<TSource, bool>> expression)
         {
             try
             {
                 var entity = await _dbSet.FirstOrDefaultAsync(expression);
-                if (entity is not null)
-                    return null;
+                if (entity is null)
+                    return false;
+
+                _dbSet.Remove(entity);
+
+                return true;
             }
             catch (Exception ex)
             {
@@ -53,11 +58,11 @@ namespace SmartHR.Dashboard.Data.Repositories
             }
         }
 
-        public Task<IQueryable<TSource>> GetAllAsync(Expression<Func<TSource, bool>> expression = null)
+        public async Task<IQueryable<TSource>> GetAllAsync(Expression<Func<TSource, bool>> expression = null)
         {
             try
             {
-
+                return _dbSet;
             }
             catch (Exception ex)
             {
@@ -70,7 +75,7 @@ namespace SmartHR.Dashboard.Data.Repositories
         {
             try
             {
-
+                return _dbSet.FirstOrDefaultAsync(expression);
             }
             catch (Exception ex)
             {
@@ -79,11 +84,11 @@ namespace SmartHR.Dashboard.Data.Repositories
             }
         }
 
-        public Task<TSource> UpdateAsync(TSource entity)
+        public async Task<TSource> UpdateAsync(TSource entity)
         {
             try
             {
-
+                return _dbSet.Update(entity).Entity;
             }
             catch (Exception ex)
             {

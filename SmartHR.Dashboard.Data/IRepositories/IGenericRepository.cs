@@ -11,7 +11,7 @@ namespace SmartHR.Dashboard.Data.IRepositories
     {
         Task<IQueryable<TSource>> GetAllAsync(Expression<Func<TSource, bool>> expression = null);
         Task<TSource> GetAsync(Expression<Func<TSource, bool>> expression);
-        Task<TSource> DeleteAsync(Expression<Func<TSource, bool>> expression);
+        Task<bool> DeleteAsync(Expression<Func<TSource, bool>> expression);
         Task<TSource> UpdateAsync(TSource entity);
         Task<TSource> CreateAsync(TSource entity);
     }
