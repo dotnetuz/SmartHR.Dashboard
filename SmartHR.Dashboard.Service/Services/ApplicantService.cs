@@ -52,6 +52,8 @@ namespace SmartHR.Dashboard.Service.Services
 
             response.Data = newInterview;
 
+            await _unitOfWork.CompleteTaskAsync();
+
             return response;
         }
     }
