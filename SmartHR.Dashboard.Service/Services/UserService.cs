@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using SmartHR.Dashboard.Data.IRepositories;
 using SmartHR.Dashboard.Domain.Common;
 using SmartHR.Dashboard.Domain.Entities.User;
@@ -78,9 +79,9 @@ namespace SmartHR.Dashboard.Service.Services
             return response;
         }
 
-        public async Task<BaseResponse<string>> LoginAsync(string username, string password)
+        public async Task<BaseResponse<object>> LoginAsync(string username, string password)
         {
-            var response = new BaseResponse<string>();
+            var response = new BaseResponse<object>();
 
             var user = await _unitOfWork.Users.GetAsync(p => p.Username == username &&
                 p.State != ItemState.Deleted);
@@ -114,7 +115,11 @@ namespace SmartHR.Dashboard.Service.Services
 
                 await _unitOfWork.CompleteTaskAsync();
 
-                response.Data = token;
+                response.Data = new
+                {
+                    user = user,
+                    token = token
+                };
 
                 return response;
             }
