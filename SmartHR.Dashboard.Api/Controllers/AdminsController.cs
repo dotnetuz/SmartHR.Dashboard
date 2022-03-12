@@ -8,11 +8,24 @@ namespace SmartHR.Dashboard.Api.Controllers
 {
     public class AdminsController : ControllerBase
     {
-        private readonly IUserService userService;
+        private readonly IAdminService adminService;
 
-        public AdminsController(IUserService userService)
+        public AdminsController(IAdminService adminService)
         {
-            this.userService = userService;
+            this.adminService = adminService;
+        }
+
+        [HttpPost("approvement")]
+        public async Task<IActionResult> CompleteRegistrationAsync(
+            [FromBody]IList<long> userIdentities, 
+            [FromQuery] bool isApproved)
+        {
+            if (userIdentities is null || userIdentities.Count == 0)
+                return BadRequest("You have at least a member to approve registration");
+
+            await this.adminService.CompleteRegistrationAsync(userIdentities, isApproved);
+
+            return NoContent();
         }
     }
 }
