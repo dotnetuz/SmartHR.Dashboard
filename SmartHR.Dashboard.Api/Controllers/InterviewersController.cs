@@ -19,7 +19,7 @@ namespace SmartHR.Dashboard.Api.Controllers
             this.interviewerService = interviewerService; 
         }
 
-        [HttpGet]
+        [HttpGet("interviews")]
         public async ValueTask<ActionResult<IEnumerable<Interview>>> GetInterviewers(int pageSize, int pageIndex, InterviewStatus status)
         {
             var result = await this.interviewerService.GetRequestsAsync(pageSize, pageIndex, status);
