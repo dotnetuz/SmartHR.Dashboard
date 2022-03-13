@@ -3,8 +3,11 @@ using SmartHR.Dashboard.Data.IRepositories;
 using SmartHR.Dashboard.Domain.Common;
 using SmartHR.Dashboard.Domain.Entities.Interviews;
 using SmartHR.Dashboard.Domain.Enums;
+using SmartHR.Dashboard.Service.Extensions;
 using SmartHR.Dashboard.Service.Interfaces;
 using SmartHR.Dashboard.Service.ViewModels.Interviews;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace SmartHR.Dashboard.Service.Services
@@ -17,6 +20,17 @@ namespace SmartHR.Dashboard.Service.Services
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+        }
+
+        public async Task<BaseResponse<CollectionResult<Interview>>> GetFinishedInterviewsAsync(int pageSize, int pageIndex)
+        {
+            var response = new BaseResponse<CollectionResult<Interview>>();
+
+            var interviews = await _unitOfWork.Interviews.GetAllAsync(p => p.Status == InterviewStatus.Finished);
+
+            response.Data = new CollectionResult<Interview>(interviews.Count(), interviews.ToPagination(pageSize, pageIndex));
+
+            return response;
         }
 
         public async Task<BaseResponse<Interview>> SendRequestAsync(InterviewViewModel interview)
