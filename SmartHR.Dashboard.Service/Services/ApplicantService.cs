@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using SmartHR.Dashboard.Data.IRepositories;
 using SmartHR.Dashboard.Domain.Common;
 using SmartHR.Dashboard.Domain.Entities.Interviews;
@@ -26,7 +27,8 @@ namespace SmartHR.Dashboard.Service.Services
         {
             var response = new BaseResponse<CollectionResult<Interview>>();
 
-            var interviews = await _unitOfWork.Interviews.GetAllAsync(p => p.Status == InterviewStatus.Finished);
+            var interviews = (await _unitOfWork.Interviews.GetAllAsync(p => p.Status == InterviewStatus.Finished))
+                .Include(p => p.Applicant).Include(p => p.Interviewer);
 
             response.Data = new CollectionResult<Interview>(interviews.Count(), interviews.ToPagination(pageSize, pageIndex));
 
