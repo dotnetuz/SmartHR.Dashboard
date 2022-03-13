@@ -60,7 +60,7 @@ namespace SmartHR.Dashboard.Data.Repositories
         {
             try
             {
-                return _dbSet;
+                return expression == null ? _dbSet : _dbSet.Where(expression);
             }
             catch (Exception ex)
             {

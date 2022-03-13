@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SmartHR.Dashboard.Domain.Entities.Interviews;
+using SmartHR.Dashboard.Domain.Entities.Users;
 using SmartHR.Dashboard.Domain.Enums;
 using SmartHR.Dashboard.Service.Interfaces;
 using SmartHR.Dashboard.Service.ViewModels.Interviews;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 namespace SmartHR.Dashboard.Api.Controllers
 {
     [ApiController]
-    [Route("api/[controller]"), Authorize(Roles = "Interviewer")]
+    [Route("api/[controller]")]
     public class InterviewersController : ControllerBase
     {
         private readonly IInterviewerService interviewerService;
@@ -23,14 +24,14 @@ namespace SmartHR.Dashboard.Api.Controllers
 
 
         [HttpGet, Authorize(Roles = "Applicant")]
-        public async ValueTask<ActionResult<IEnumerable<Interview>>> GetInterviewers(int pageSize, int pageIndex)
+        public async ValueTask<ActionResult<IEnumerable<User>>> GetInterviewers(int pageSize, int pageIndex)
         {
             var result = await this.userService.GetAllAsync(pageSize, pageIndex, user => user.Role == UserType.Interviewer);
 
             return Ok(result);
         }
 
-        [HttpGet("interviews")]
+        [HttpGet("interviews"), Authorize(Roles = "Interviewer")]
         public async ValueTask<ActionResult<IEnumerable<Interview>>> GetInterviews(int pageSize, int pageIndex, InterviewStatus status)
         {
             var result = await this.interviewerService.GetRequestsAsync(pageSize, pageIndex, status);
@@ -38,7 +39,7 @@ namespace SmartHR.Dashboard.Api.Controllers
             return Ok(result);
         }
 
-        [HttpPatch("interview/toggle-status")]
+        [HttpPatch("interview/toggle-status"), Authorize(Roles = "Interviewer")]
         public async ValueTask<ActionResult<Interview>> UpdateStatus(UpdateInterviewStatusViewModel statusModel)
         {
             var result = await this.interviewerService.UpdateStatusAsync(statusModel);
@@ -46,7 +47,7 @@ namespace SmartHR.Dashboard.Api.Controllers
             return result.Error?.Code == 404 ? NotFound(result) : Ok(result);
         } 
 
-        [HttpPost]
+        [HttpPost, Authorize(Roles = "Interviewer")]
         public async ValueTask<IActionResult> LeaveFeedback(
             [FromBody] FeedbackViewModel feedback)
         {
