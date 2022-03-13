@@ -23,7 +23,7 @@ namespace SmartHR.Dashboard.Api.Controllers
         }
 
 
-        [HttpGet, Authorize(Roles = "Applicant")]
+        [HttpGet, Authorize(Roles = "Applican, Admin")]
         public async ValueTask<ActionResult<IEnumerable<User>>> GetInterviewers(int pageSize, int pageIndex)
         {
             var result = await this.userService.GetAllAsync(pageSize, pageIndex, user => user.Role == UserType.Interviewer);
@@ -31,7 +31,7 @@ namespace SmartHR.Dashboard.Api.Controllers
             return Ok(result);
         }
 
-        [HttpGet("interviews"), Authorize(Roles = "Interviewer")]
+        [HttpGet("interviews"), Authorize(Roles = "Interviewer, Admin")]
         public async ValueTask<ActionResult<IEnumerable<Interview>>> GetInterviews(int pageSize, int pageIndex, InterviewStatus status)
         {
             var result = await this.interviewerService.GetRequestsAsync(pageSize, pageIndex, status);
@@ -39,7 +39,7 @@ namespace SmartHR.Dashboard.Api.Controllers
             return Ok(result);
         }
 
-        [HttpPatch("interview/toggle-status"), Authorize(Roles = "Interviewer")]
+        [HttpPatch("interview/toggle-status"), Authorize(Roles = "Interviewer, Admin")]
         public async ValueTask<ActionResult<Interview>> UpdateStatus(UpdateInterviewStatusViewModel statusModel)
         {
             var result = await this.interviewerService.UpdateStatusAsync(statusModel);
@@ -47,7 +47,7 @@ namespace SmartHR.Dashboard.Api.Controllers
             return result.Error?.Code == 404 ? NotFound(result) : Ok(result);
         } 
 
-        [HttpPost, Authorize(Roles = "Interviewer")]
+        [HttpPost, Authorize(Roles = "Interviewer, Admin")]
         public async ValueTask<IActionResult> LeaveFeedback(
             [FromBody] FeedbackViewModel feedback)
         {

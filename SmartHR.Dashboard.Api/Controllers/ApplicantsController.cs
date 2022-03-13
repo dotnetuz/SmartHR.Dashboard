@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace SmartHR.Dashboard.Api.Controllers
 {
     [ApiController]
-    [Route("api/[controller]"), Authorize(Roles = "Applicant")]
+    [Route("api/[controller]"), Authorize(Roles = "Applicant, Admin")]
     public class ApplicantsController : ControllerBase
     {
         private readonly IApplicantService _applicantService;

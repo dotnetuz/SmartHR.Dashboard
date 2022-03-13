@@ -10,5 +10,9 @@ namespace SmartHR.Dashboard.Domain.Entities.Users
     public class Technology : BaseEntity
     {
         public string Name { get; set; }
+
+        public User User { get; }
+
+        public long UserId { get; set; }
     }
 }
