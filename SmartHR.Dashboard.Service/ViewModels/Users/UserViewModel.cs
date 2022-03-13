@@ -21,5 +21,7 @@ namespace SmartHR.Dashboard.Service.ViewModels.Users
 
         [EmailAddress]
         public string Email { get; set; }
+
+        public long? TechnologyId { get; set; }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using SmartHR.Dashboard.Domain.Common;
 using SmartHR.Dashboard.Domain.Enums;
+using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SmartHR.Dashboard.Domain.Entities.Users
 {
@@ -25,5 +27,10 @@ namespace SmartHR.Dashboard.Domain.Entities.Users
         public string Email { get; set; }
 
         public UserType Role { get; set; }
+
+        [ForeignKey(nameof(TechnologyId))]
+        public Technology? Technology { get; set; }
+
+        public long? TechnologyId { get; set; }
     }
 }
