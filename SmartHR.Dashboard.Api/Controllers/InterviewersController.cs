@@ -14,13 +14,24 @@ namespace SmartHR.Dashboard.Api.Controllers
     public class InterviewersController : ControllerBase
     {
         private readonly IInterviewerService interviewerService;
-        public InterviewersController(IInterviewerService interviewerService)
+        private readonly IUserService userService;
+        public InterviewersController(IInterviewerService interviewerService, IUserService userService)
         {
-            this.interviewerService = interviewerService; 
+            this.interviewerService = interviewerService;
+            this.userService = userService;
+        }
+
+
+        [HttpGet()]
+        public async ValueTask<ActionResult<IEnumerable<Interview>>> GetInterviewers(int pageSize, int pageIndex)
+        {
+            var result = await this.userService.GetAllAsync(pageSize, pageIndex, user => user.Role == UserType.Interviewer);
+
+            return Ok(result);
         }
 
         [HttpGet("interviews")]
-        public async ValueTask<ActionResult<IEnumerable<Interview>>> GetInterviewers(int pageSize, int pageIndex, InterviewStatus status)
+        public async ValueTask<ActionResult<IEnumerable<Interview>>> GetInterviews(int pageSize, int pageIndex, InterviewStatus status)
         {
             var result = await this.interviewerService.GetRequestsAsync(pageSize, pageIndex, status);
 
