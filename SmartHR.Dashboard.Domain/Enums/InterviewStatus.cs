@@ -4,7 +4,8 @@
     {
         Pending = 1,
         Rejected,
-        Approved
+        Approved,
+        Finished
     }
 
 }

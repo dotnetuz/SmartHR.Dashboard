@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using SmartHR.Dashboard.Data.Contexts;
@@ -9,9 +10,10 @@ using SmartHR.Dashboard.Data.Contexts;
 namespace SmartHR.Dashboard.Data.Migrations
 {
     [DbContext(typeof(SmartHRDbContext))]
-    partial class SmartHRDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220313043329_scoreMigration")]
+    partial class scoreMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -85,33 +87,6 @@ namespace SmartHR.Dashboard.Data.Migrations
                     b.ToTable("Interviews");
                 });
 
-            modelBuilder.Entity("SmartHR.Dashboard.Domain.Entities.Users.Technology", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("text");
-
-                    b.Property<int>("State")
-                        .HasColumnType("integer");
-
-                    b.Property<long?>("UpdatedBy")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime?>("UpdatedDate")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Technologies");
-                });
-
             modelBuilder.Entity("SmartHR.Dashboard.Domain.Entities.Users.User", b =>
                 {
                     b.Property<long>("Id")
@@ -148,9 +123,6 @@ namespace SmartHR.Dashboard.Data.Migrations
                     b.Property<int>("State")
                         .HasColumnType("integer");
 
-                    b.Property<long?>("TechnologyId")
-                        .HasColumnType("bigint");
-
                     b.Property<long?>("UpdatedBy")
                         .HasColumnType("bigint");
 
@@ -162,8 +134,6 @@ namespace SmartHR.Dashboard.Data.Migrations
                         .HasColumnType("character varying(50)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("TechnologyId");
 
                     b.ToTable("Users");
                 });
@@ -187,15 +157,6 @@ namespace SmartHR.Dashboard.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("UserAuths");
-                });
-
-            modelBuilder.Entity("SmartHR.Dashboard.Domain.Entities.Users.User", b =>
-                {
-                    b.HasOne("SmartHR.Dashboard.Domain.Entities.Users.Technology", "Technology")
-                        .WithMany()
-                        .HasForeignKey("TechnologyId");
-
-                    b.Navigation("Technology");
                 });
 #pragma warning restore 612, 618
         }

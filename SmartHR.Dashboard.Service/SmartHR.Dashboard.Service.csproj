@@ -3,10 +3,6 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
-  
-  <ItemGroup>
-    <Folder Include="Helpers\" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\SmartHR.Dashboard.Data\SmartHR.Dashboard.Data.csproj" />

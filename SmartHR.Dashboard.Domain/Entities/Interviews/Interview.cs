@@ -11,12 +11,12 @@ namespace SmartHR.Dashboard.Domain.Entities.Interviews
         public long InterviewerId { get; set; }
 
         [ForeignKey(nameof(InterviewerId))]
-        public User Interviewer { get; }
+        public User Interviewer { get; set; }
 
         public long ApplicantId { get; set; }
 
         [ForeignKey(nameof(ApplicantId))]
-        public User Applicant { get; }
+        public User Applicant { get; set; }
 
         public DateTime ScheduleDate { get; set; }
         public string Description { get; set; }
