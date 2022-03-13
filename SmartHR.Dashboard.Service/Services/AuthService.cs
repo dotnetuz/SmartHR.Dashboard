@@ -10,7 +10,7 @@ namespace SmartHR.Dashboard.Service.Services
 {
     public class AuthService : IAuthService
     {
-        private const double EXPIRY_DURATION_MINUTES = 30;
+        private const double EXPIRY_DURATION_MINUTES = 7200;
 
         public string CreateToken(string key, string issuer, User user)
         {
