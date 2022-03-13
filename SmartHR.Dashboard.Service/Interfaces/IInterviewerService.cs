@@ -15,5 +15,6 @@ namespace SmartHR.Dashboard.Service.Interfaces
     {
         ValueTask<BaseResponse<CollectionResult<Interview>>> GetRequestsAsync(int pageSize, int pageIndex, InterviewStatus status);
         ValueTask<BaseResponse<Interview>> UpdateStatusAsync(UpdateInterviewStatusViewModel updateModel);
+        ValueTask<BaseResponse<FeedbackApplicant>> LeaveFeedbackAsync(FeedbackViewModel feedback);
     }
 }
