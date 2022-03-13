@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SmartHR.Dashboard.Domain.Entities.Interviews;
+using SmartHR.Dashboard.Domain.Entities.Users;
+using SmartHR.Dashboard.Domain.Enums;
 using SmartHR.Dashboard.Service.Interfaces;
 using SmartHR.Dashboard.Service.ViewModels.Interviews;
 using System.Collections.Generic;
@@ -13,9 +15,11 @@ namespace SmartHR.Dashboard.Api.Controllers
     public class ApplicantsController : ControllerBase
     {
         private readonly IApplicantService _applicantService;
-        public ApplicantsController(IApplicantService applicantService, IInterviewerService interviewService)
+        private readonly IUserService _userService;
+        public ApplicantsController(IApplicantService applicantService, IInterviewerService interviewService, IUserService userService)
         {
             _applicantService = applicantService;
+            _userService = userService;
         }
 
         [HttpPost("request")]
@@ -30,6 +34,14 @@ namespace SmartHR.Dashboard.Api.Controllers
         public async ValueTask<ActionResult<IEnumerable<Interview>>> GetInterviews(int pageSize, int pageIndex)
         {
             var result = await _applicantService.GetFinishedInterviewsAsync(pageSize, pageIndex);
+
+            return Ok(result);
+        }
+
+        [HttpGet, Authorize(Roles = "Applicant, Admin")]
+        public async ValueTask<ActionResult<IEnumerable<User>>> GetInterviewers(int pageSize, int pageIndex)
+        {
+            var result = await this._userService.GetAllAsync(pageSize, pageIndex, user => user.Role == UserType.Interviewer);
 
             return Ok(result);
         }

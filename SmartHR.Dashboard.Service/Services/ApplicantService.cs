@@ -5,6 +5,7 @@ using SmartHR.Dashboard.Domain.Common;
 using SmartHR.Dashboard.Domain.Entities.Interviews;
 using SmartHR.Dashboard.Domain.Enums;
 using SmartHR.Dashboard.Service.Extensions;
+using SmartHR.Dashboard.Service.Helpers;
 using SmartHR.Dashboard.Service.Interfaces;
 using SmartHR.Dashboard.Service.ViewModels.Interviews;
 using System.Collections.Generic;
@@ -46,7 +47,7 @@ namespace SmartHR.Dashboard.Service.Services
                 return response;
             }
 
-            var applicant = await _unitOfWork.Users.GetAsync(p => p.Id == interview.ApplicantId && p.Role == UserType.Applicant);
+            var applicant = await _unitOfWork.Users.GetAsync(p => p.Id == HttpContextHelper.UserId && p.Role == UserType.Applicant);
             if (applicant is null)
             {
                 response.Error = new ErrorModel(404, "Applicant not found");
@@ -55,7 +56,7 @@ namespace SmartHR.Dashboard.Service.Services
 
             // check for exist interview with this interviewer
             var oldInterview = await _unitOfWork.Interviews.GetAsync(p =>
-                p.InterviewerId == interview.InterviewerId && p.ApplicantId == interview.ApplicantId);
+                p.InterviewerId == interview.InterviewerId && p.ApplicantId == HttpContextHelper.UserId);
             if (oldInterview is not null)
             {
                 response.Error = new ErrorModel(404, "Already, request sent before");

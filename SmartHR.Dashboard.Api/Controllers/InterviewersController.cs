@@ -22,15 +22,6 @@ namespace SmartHR.Dashboard.Api.Controllers
             this.userService = userService;
         }
 
-
-        [HttpGet, Authorize(Roles = "Applican, Admin")]
-        public async ValueTask<ActionResult<IEnumerable<User>>> GetInterviewers(int pageSize, int pageIndex)
-        {
-            var result = await this.userService.GetAllAsync(pageSize, pageIndex, user => user.Role == UserType.Interviewer);
-
-            return Ok(result);
-        }
-
         [HttpGet("interviews"), Authorize(Roles = "Interviewer, Admin")]
         public async ValueTask<ActionResult<IEnumerable<Interview>>> GetInterviews(int pageSize, int pageIndex, InterviewStatus status)
         {

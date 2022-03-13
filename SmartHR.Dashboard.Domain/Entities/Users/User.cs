@@ -31,9 +31,8 @@ namespace SmartHR.Dashboard.Domain.Entities.Users
 
         public UserType Role { get; set; }
 
-        [ForeignKey(nameof(TechnologyId))]
-        public Technology? Technology { get; set; }
-
-        public long? TechnologyId { get; set; }
+        public string Organization { get; set; }
+        public string Level { get; set; }
+        public string Technology { get; set; }
     }
 }
